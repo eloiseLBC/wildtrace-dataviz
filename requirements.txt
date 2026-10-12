@@ -1,0 +1,2 @@
+oci>=2.150,<3
+psycopg[binary]>=3.2,<4

@@ -1,0 +1,44 @@
+services:
+  postgres:
+    image: postgres:17
+    environment:
+      POSTGRES_USER: wildtrace
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Run python3 configure.py first}
+      POSTGRES_DB: wildtrace
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./init.sh:/docker-entrypoint-initdb.d/01-init.sh:ro
+    healthcheck:
+      test: [CMD-SHELL, "pg_isready -U wildtrace -d wildtrace"]
+      interval: 5s
+      retries: 20
+    restart: unless-stopped
+  metabase:
+    image: ${METABASE_IMAGE:-metabase/metabase:latest}
+    ports: ["127.0.0.1:3000:3000"]
+    environment:
+      MB_DB_TYPE: postgres
+      MB_DB_HOST: postgres
+      MB_DB_PORT: 5432
+      MB_DB_DBNAME: metabase
+      MB_DB_USER: wildtrace
+      MB_DB_PASS: ${POSTGRES_PASSWORD}
+    depends_on:
+      postgres: {condition: service_healthy}
+    restart: unless-stopped
+  sync:
+    build: .
+    profiles: [sync]
+    env_file: .env
+    environment:
+      PGHOST: postgres
+      PGUSER: wildtrace
+      PGDATABASE: wildtrace
+      PGPASSWORD: ${POSTGRES_PASSWORD}
+      OCI_CONFIG_FILE: /oci/config
+    volumes:
+      - ${OCI_CONFIG_DIR:?Set OCI_CONFIG_DIR in .env}:/oci:ro
+    depends_on:
+      postgres: {condition: service_healthy}
+volumes:
+  pgdata:

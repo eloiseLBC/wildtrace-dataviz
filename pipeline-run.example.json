@@ -1,0 +1,11 @@
+{
+  "description": "Contrat proposé, non ingéré dans cette version",
+  "run_id": "UUID-A-GENERER",
+  "stage": "contextualize",
+  "started_at": "2026-10-12T19:00:00Z",
+  "finished_at": "2026-10-12T19:00:12Z",
+  "status": "success",
+  "days_processed": ["2026-10-11"],
+  "days_skipped": [{"date": "2026-10-10", "reason": "missing_biological"}],
+  "error_code": null
+}
