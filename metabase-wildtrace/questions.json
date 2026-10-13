@@ -1,0 +1,221 @@
+[
+  {
+    "name": "01 · Jours contextualisés",
+    "query": "SELECT count(*) AS jours_contextualises FROM v_coverage WHERE contextualized_present AND NOT current_day",
+    "display": "scalar",
+    "visualization_settings": {},
+    "description": "Données WildTrace importées depuis OCI. Valeurs absentes conservées ; supervision de synchronisation distincte des jobs WildTrace."
+  },
+  {
+    "name": "02 · Jours environnementaux calculés",
+    "query": "SELECT count(*) AS jours_calcules FROM v_coverage WHERE environmental_computed AND NOT current_day",
+    "display": "scalar",
+    "visualization_settings": {},
+    "description": "Données WildTrace importées depuis OCI. Valeurs absentes conservées ; supervision de synchronisation distincte des jobs WildTrace."
+  },
+  {
+    "name": "03 · Jours sans contextualisation",
+    "query": "SELECT count(*) AS jours_manquants FROM v_coverage WHERE NOT contextualized_present AND NOT current_day",
+    "display": "scalar",
+    "visualization_settings": {},
+    "description": "Données WildTrace importées depuis OCI. Valeurs absentes conservées ; supervision de synchronisation distincte des jobs WildTrace."
+  },
+  {
+    "name": "04 · Dernière synchronisation réussie",
+    "query": "SELECT max(finished_at) AS derniere_sync_reussie FROM sync_runs WHERE status='success'",
+    "display": "table",
+    "visualization_settings": {},
+    "description": "Données WildTrace importées depuis OCI. Valeurs absentes conservées ; supervision de synchronisation distincte des jobs WildTrace."
+  },
+  {
+    "name": "05 · Calendrier de couverture",
+    "query": "SELECT * FROM v_coverage ORDER BY day DESC",
+    "display": "table",
+    "visualization_settings": {},
+    "description": "Données WildTrace importées depuis OCI. Valeurs absentes conservées ; supervision de synchronisation distincte des jobs WildTrace."
+  },
+  {
+    "name": "06 · Dates sans contextualisation",
+    "query": "SELECT * FROM v_coverage WHERE NOT contextualized_present AND NOT current_day ORDER BY day",
+    "display": "table",
+    "visualization_settings": {},
+    "description": "Données WildTrace importées depuis OCI. Valeurs absentes conservées ; supervision de synchronisation distincte des jobs WildTrace."
+  },
+  {
+    "name": "07 · Température quotidienne",
+    "query": "SELECT day,temperature_avg,temperature_min,temperature_max FROM v_daily_environment ORDER BY day",
+    "display": "line",
+    "visualization_settings": {
+      "graph.dimensions": [
+        "day"
+      ],
+      "graph.metrics": [
+        "temperature_avg",
+        "temperature_min",
+        "temperature_max"
+      ]
+    },
+    "description": "Données WildTrace importées depuis OCI. Valeurs absentes conservées ; supervision de synchronisation distincte des jobs WildTrace."
+  },
+  {
+    "name": "08 · Humidité quotidienne",
+    "query": "SELECT day,humidity_avg FROM v_daily_environment ORDER BY day",
+    "display": "line",
+    "visualization_settings": {
+      "graph.dimensions": [
+        "day"
+      ],
+      "graph.metrics": [
+        "humidity_avg"
+      ]
+    },
+    "description": "Données WildTrace importées depuis OCI. Valeurs absentes conservées ; supervision de synchronisation distincte des jobs WildTrace."
+  },
+  {
+    "name": "09 · Luminosité quotidienne",
+    "query": "SELECT day,luminosity_avg FROM v_daily_environment ORDER BY day",
+    "display": "line",
+    "visualization_settings": {
+      "graph.dimensions": [
+        "day"
+      ],
+      "graph.metrics": [
+        "luminosity_avg"
+      ]
+    },
+    "description": "Données WildTrace importées depuis OCI. Valeurs absentes conservées ; supervision de synchronisation distincte des jobs WildTrace."
+  },
+  {
+    "name": "10 · CO2 quotidien",
+    "query": "SELECT day,co2_avg FROM v_daily_environment ORDER BY day",
+    "display": "line",
+    "visualization_settings": {
+      "graph.dimensions": [
+        "day"
+      ],
+      "graph.metrics": [
+        "co2_avg"
+      ]
+    },
+    "description": "Données WildTrace importées depuis OCI. Valeurs absentes conservées ; supervision de synchronisation distincte des jobs WildTrace."
+  },
+  {
+    "name": "11 · Qualité environnementale",
+    "query": "SELECT day,distinct_measurements,missing_or_invalid_temperature,missing_or_invalid_humidity,humidity_out_of_bounds,reconstructed_measurements FROM v_daily_environment ORDER BY day DESC",
+    "display": "table",
+    "visualization_settings": {},
+    "description": "Données WildTrace importées depuis OCI. Valeurs absentes conservées ; supervision de synchronisation distincte des jobs WildTrace."
+  },
+  {
+    "name": "12 · Erreurs et objets absents",
+    "query": "SELECT * FROM v_import_errors ORDER BY bucket,name",
+    "display": "table",
+    "visualization_settings": {},
+    "description": "Données WildTrace importées depuis OCI. Valeurs absentes conservées ; supervision de synchronisation distincte des jobs WildTrace."
+  },
+  {
+    "name": "13 · Historique des synchronisations",
+    "query": "SELECT * FROM sync_runs ORDER BY started_at DESC LIMIT 100",
+    "display": "table",
+    "visualization_settings": {},
+    "description": "Données WildTrace importées depuis OCI. Valeurs absentes conservées ; supervision de synchronisation distincte des jobs WildTrace."
+  },
+  {
+    "name": "14 · État des lectures OCI",
+    "query": "SELECT * FROM bucket_scans WHERE run_id=(SELECT max(id) FROM sync_runs)",
+    "display": "table",
+    "visualization_settings": {},
+    "description": "Données WildTrace importées depuis OCI. Valeurs absentes conservées ; supervision de synchronisation distincte des jobs WildTrace."
+  },
+  {
+    "name": "15 · Parties contextualisées par jour",
+    "query": "SELECT * FROM v_context_parts WHERE file_parts>1 ORDER BY day DESC",
+    "display": "table",
+    "visualization_settings": {},
+    "description": "Données WildTrace importées depuis OCI. Valeurs absentes conservées ; supervision de synchronisation distincte des jobs WildTrace."
+  },
+  {
+    "name": "16 · Durée du sommeil",
+    "query": "SELECT day,sleep_hours FROM v_biological ORDER BY day",
+    "display": "line",
+    "visualization_settings": {
+      "graph.dimensions": [
+        "day"
+      ],
+      "graph.metrics": [
+        "sleep_hours"
+      ]
+    },
+    "description": "Données WildTrace importées depuis OCI. Valeurs absentes conservées ; supervision de synchronisation distincte des jobs WildTrace."
+  },
+  {
+    "name": "17 · HRV quotidienne",
+    "query": "SELECT day,hrv_avg_ms FROM v_biological ORDER BY day",
+    "display": "line",
+    "visualization_settings": {
+      "graph.dimensions": [
+        "day"
+      ],
+      "graph.metrics": [
+        "hrv_avg_ms"
+      ]
+    },
+    "description": "Données WildTrace importées depuis OCI. Valeurs absentes conservées ; supervision de synchronisation distincte des jobs WildTrace."
+  },
+  {
+    "name": "18 · Score de sommeil",
+    "query": "SELECT day,sleep_duration_score FROM v_biological ORDER BY day",
+    "display": "line",
+    "visualization_settings": {
+      "graph.dimensions": [
+        "day"
+      ],
+      "graph.metrics": [
+        "sleep_duration_score"
+      ]
+    },
+    "description": "Données WildTrace importées depuis OCI. Valeurs absentes conservées ; supervision de synchronisation distincte des jobs WildTrace."
+  },
+  {
+    "name": "19 · Stress estimé et disponibilité",
+    "query": "SELECT day,city,country,stress_score,stress_status,hrv_baseline_days,hrv_change_percent FROM v_biological ORDER BY day DESC",
+    "display": "table",
+    "visualization_settings": {},
+    "description": "Données WildTrace importées depuis OCI. Valeurs absentes conservées ; supervision de synchronisation distincte des jobs WildTrace."
+  },
+  {
+    "name": "20 · Résumés biologiques détaillés",
+    "query": "SELECT day,city,country,heart_rate_avg,heart_rate_min,heart_rate_max,hrv_avg_ms,oxygen_saturation_avg_percent,respiratory_rate_avg,steps_total,active_energy_kcal,basal_energy_kcal,distance_walking_running_meters,sleep_duration_hours,workout_count FROM v_biological ORDER BY day DESC",
+    "display": "table",
+    "visualization_settings": {},
+    "description": "Données WildTrace importées depuis OCI. Valeurs absentes conservées ; supervision de synchronisation distincte des jobs WildTrace."
+  },
+  {
+    "name": "21 · Environnement par lieu",
+    "query": "SELECT day,city,country,avg(temperature_value) AS temperature_avg,avg(humidity_value) AS humidity_avg,avg(concentration_co2_value) AS co2_avg,count(*) AS mesures FROM v_environment GROUP BY day,city,country ORDER BY day DESC,city",
+    "display": "table",
+    "visualization_settings": {},
+    "description": "Données WildTrace importées depuis OCI. Valeurs absentes conservées ; supervision de synchronisation distincte des jobs WildTrace."
+  },
+  {
+    "name": "22 · Moods et environnements déclarés",
+    "query": "SELECT day,timestamp,city,country,moods,environments FROM v_environment ORDER BY day DESC,timestamp",
+    "display": "table",
+    "visualization_settings": {},
+    "description": "Données WildTrace importées depuis OCI. Valeurs absentes conservées ; supervision de synchronisation distincte des jobs WildTrace."
+  },
+  {
+    "name": "23 · Couverture des localisations",
+    "query": "SELECT count(*) AS jours_biologiques,count(*) FILTER (WHERE nullif(trim(city),'') IS NULL) AS sans_ville,count(*) FILTER (WHERE nullif(trim(country),'') IS NULL) AS sans_pays FROM v_biological",
+    "display": "table",
+    "visualization_settings": {},
+    "description": "Données WildTrace importées depuis OCI. Valeurs absentes conservées ; supervision de synchronisation distincte des jobs WildTrace."
+  },
+  {
+    "name": "24 · Sommeil par pays (3 nuits minimum)",
+    "query": "SELECT country,count(sleep_duration_score) AS nuits_valides,avg(sleep_duration_score) AS score_sommeil_moyen,avg(sleep_hours) AS duree_moyenne FROM v_biological WHERE nullif(trim(country),'') IS NOT NULL GROUP BY country HAVING count(sleep_duration_score)>=3 ORDER BY score_sommeil_moyen DESC",
+    "display": "table",
+    "visualization_settings": {},
+    "description": "Données WildTrace importées depuis OCI. Valeurs absentes conservées ; supervision de synchronisation distincte des jobs WildTrace."
+  }
+]
